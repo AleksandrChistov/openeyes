@@ -1,0 +1,41 @@
+import React from 'react';
+import style from './home.styl'
+
+function Home(props) {
+  const { asynLoad, auth } = props;
+  
+  if(auth.auth.length <= 0) {
+    asynLoad();
+    console.log(auth);
+  }
+  const unsplash = auth.auth;
+  console.log(unsplash);
+  return (
+    <div className="home-block">
+      {
+        unsplash.map((data, i) => {
+          let d = data.created_at;
+          d = d.split('T')[0].split('-').reverse().join(".");
+          return (
+            <div className="foto-wrap" key={i}>
+              <img src={data.urls.small} alt={"Фотография " + data.user.name} className="foto"/>
+              <div className="cart-image">
+                <div className="cart-image__autor">
+                  <img src={data.user.profile_image.small} alt={"Аватарка " + data.user.name} className="foto-autor"/>
+                  <span className="name-autor">{data.user.name}</span>
+                </div>
+                <div className="cart-image__data">
+                  <time className="date-foto" itemProp="datePublished" datetime={data.created_at}>{d}</time>
+                  <img src="img/likes.png" alt="Количество лайков" className="foto-likes"/>
+                  <span className="number-likes">{data.likes}</span>
+                </div>
+              </div>
+            </div>
+          )
+        }) 
+      }
+    </div>
+  )
+}
+
+export default Home;
