@@ -6,10 +6,10 @@ import Header from '../components/header/header';
 import Authorization from '../components/authorization/authorization'
 import Home from '../components/home/home';
 import BtnLoader from '../components/btn-loader/btn-loader';
-import { asynLoad } from "../redux/actions/index";
+import { asynLoad, loadPlus } from "../redux/actions/index";
 
 let App = (props) => {  
- const { asynLoad, auth } = props;
+ const { asynLoad, auth, loadPlus } = props;
   return (
     <React.Fragment>
       <Header/>
@@ -18,7 +18,7 @@ let App = (props) => {
         <div className="home-block">
           <Home auth={auth} asynLoad={asynLoad}/>
         </div>
-        <BtnLoader/>
+        <BtnLoader auth={auth} loadPlus={loadPlus}/>
       </Route>
     </React.Fragment>
   )
@@ -32,7 +32,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    asynLoad: () => dispatch(asynLoad())
+    asynLoad: (number) => dispatch(asynLoad(number)),
+    loadPlus: (number) => dispatch(loadPlus(number))
   }
 }
 

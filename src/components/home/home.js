@@ -5,7 +5,7 @@ function Home(props) {
   const { asynLoad, auth } = props;
   
   if(auth.auth.length <= 0) {
-    asynLoad();
+    asynLoad(1);
     console.log(auth);
   }
   const unsplash = auth.auth;

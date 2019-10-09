@@ -2,8 +2,9 @@ import React from 'react';
 import style from './btn-loader.styl';
 
 function BtnLoader(props) {
+  const { auth, loadPlus } = props; 
   return (
-    <button className="btn-loader">Загрузить ещё...</button>
+    <button onClick={(props) => loadPlus(auth.number + 1)} className="btn-loader">Загрузить ещё...</button>
   )
 }
 
