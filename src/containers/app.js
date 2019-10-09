@@ -4,8 +4,9 @@ import { Route } from 'react-router-dom'
 
 import Header from '../components/header/header';
 import Authorization from '../components/authorization/authorization'
+import Home from '../components/home/home';
+import BtnLoader from '../components/btn-loader/btn-loader';
 import { asynLoad } from "../redux/actions/index";
-import Home from '../components/home/home'
 
 let App = (props) => {  
  const { asynLoad, auth } = props;
@@ -13,7 +14,12 @@ let App = (props) => {
     <React.Fragment>
       <Header/>
       <Route path="/" exact component={Authorization} />
-      <Route path="/auth" render={() => <Home auth={auth} asynLoad={asynLoad}/>} />
+      <Route path="/auth">
+        <div className="home-block">
+          <Home auth={auth} asynLoad={asynLoad}/>
+        </div>
+        <BtnLoader/>
+      </Route>
     </React.Fragment>
   )
 }
