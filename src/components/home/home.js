@@ -22,10 +22,10 @@ function Home(props) {
               <div className="cart-image">
                 <div className="cart-image__autor">
                   <img src={data.user.profile_image.small} alt={"Аватарка " + data.user.name} className="foto-autor"/>
-                  <span className="name-autor">{data.user.name}</span>
+                  <a href={data.user.links.html} target="_blank" className="name-autor">{data.user.name}</a>
                 </div>
                 <div className="cart-image__data">
-                  <time className="date-foto" itemProp="datePublished" datetime={data.created_at}>{d}</time>
+                  <time className="date-foto" itemProp="datePublished" dateTime={data.created_at}>{d}</time>
                   <img src="img/likes.png" alt="Количество лайков" className="foto-likes"/>
                   <span className="number-likes">{data.likes}</span>
                 </div>
