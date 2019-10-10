@@ -22,12 +22,12 @@ export function asynLoad(number) {
           dispatch(loadHome(json, number)); 
       });
     } else {
-      dispatch(loadError());
+      dispatch(loadError("Недействительный код аутентификации: " + code));
     }
   }
 }
 
-export function loadPlus(number) {
+export function loadPlus(number, n) {
   return (dispatch) => {    
     const unsplash = new Unsplash({
       applicationId: "8187b55cc1e13cb228d48e798baddb4093e5f1714d4d9d479aabc50c5661b040",
@@ -37,30 +37,44 @@ export function loadPlus(number) {
     unsplash.photos.listPhotos( number, 10, "latest")
       .then(res => res.json())
       .then(json => { 
-        dispatch(loadHomePlus(json, number));
+        dispatch(loadHomePlus(json, number, n));
   });
   }
 }
 
 function loadHome(result, number) {
-  console.log(result);
   return {
     type: 'LOAD_HOME',
     result,
-    number
+    number,
   }
 }
 
-function loadHomePlus(result, number) {
+function loadHomePlus(result, number, n) {
   return {
     type: 'LOAD_HOME_PLUS',
     result,
-    number
+    number,
+    n
   }
 }
 
-function loadError() {
+function loadError(code) {
+  console.log(code);
+}
+
+export function scrollTopY() {
+  return (dispatch) => {
+  let scrollY = Math.ceil(document.body.scrollTop || document.documentElement.scrollTop);
+  let windowY = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    if (scrollY === windowY) {
+      dispatch(countChecked());
+    }
+  }
+}
+
+function countChecked() {
   return {
-    type: 'LOAD_ERROR'
+    type: 'COUNT_CHECKED'
   }
 }

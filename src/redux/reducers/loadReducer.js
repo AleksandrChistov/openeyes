@@ -1,6 +1,7 @@
 const initialState = {
   auth: [],
-  number: 1
+  number: 1,
+  count: false
 }
 
 function loadReducer(state = initialState, action) {
@@ -8,17 +9,33 @@ function loadReducer(state = initialState, action) {
     case 'LOAD_HOME':
       return {
         auth: action.result,
-        number: action.number
+        number: action.number,
+        count: state.count
       }
     case 'LOAD_HOME_PLUS':
       let s = {...state};
-      let auth = [...s.auth];
+      let authS = [...s.auth];
       action.result.map(data => {
-        auth.push(data);
+        authS.push(data);
       });
+      if (action.n === 0) {
+        return {
+          auth: authS,
+          number: action.number,
+          count: state.count
+        }
+      } else {
+        return {
+          auth: authS,
+          number: action.number,
+          count: !state.count
+        }
+      }
+    case 'COUNT_CHECKED':
       return {
-        auth: auth,
-        number: action.number
+        auth: state.auth,
+        number: state.number,
+        count: !state.count
       }
     default:
       return state;

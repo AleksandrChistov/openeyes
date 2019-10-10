@@ -5,7 +5,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import reduxThunk from 'redux-thunk';
 
-
 import style from "./index.styl";
 import imgLogo from './img/logo.png';
 import imgLikes from './img/likes.png';
@@ -17,7 +16,6 @@ const loggerMiddleware = store => next => action => {
   console.log('Middleware', store.getState());
   return result
 }
-
 
  const store = createStore(rootReducer, applyMiddleware(loggerMiddleware, reduxThunk));
 

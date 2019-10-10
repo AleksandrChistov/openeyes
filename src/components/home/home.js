@@ -2,14 +2,19 @@ import React from 'react';
 import style from './home.styl'
 
 function Home(props) {
-  const { asynLoad, auth } = props;
-  
-  if(auth.auth.length <= 0) {
-    asynLoad(1);
-    console.log(auth);
-  }
+  const { asynLoad, auth, loadPlus, scrollTopY } = props;
   const unsplash = auth.auth;
-  console.log(unsplash);
+
+  if(unsplash.length <= 0) {
+    asynLoad(1);
+  }
+
+  if(auth.count) {
+    loadPlus(auth.number + 1, 1);
+  }
+
+  window.addEventListener('scroll', scrollTopY);
+
   return (
     unsplash.map((data, i) => {
       let d = data.created_at;
