@@ -78,3 +78,12 @@ function countChecked() {
     type: 'COUNT_CHECKED'
   }
 }
+
+export function passParameters(elem) {
+  console.log(elem);
+  
+  return {
+    type: 'PASS_PARAM',
+    elem
+  }
+}

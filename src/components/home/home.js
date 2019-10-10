@@ -1,8 +1,9 @@
 import React from 'react';
+import { Route, NavLink } from 'react-router-dom'
 import style from './home.styl'
 
 function Home(props) {
-  const { asynLoad, auth, loadPlus, scrollTopY } = props;
+  const { asynLoad, auth, loadPlus, scrollTopY, passParameters } = props;
   const unsplash = auth.auth;
 
   if(unsplash.length <= 0) {
@@ -21,7 +22,9 @@ function Home(props) {
       d = d.split('T')[0].split('-').reverse().join(".");
       return (
         <div className="foto-wrap" key={i}>
-          <img src={data.urls.small} alt={"Фотография " + data.user.name} className="foto"/>
+          <NavLink to="/full-foto"><img onClick={(e) => passParameters(e.target.parentElement.parentElement)} 
+          src={data.urls.small} alt={"Фотография " + data.user.name} 
+          className="foto" data-i={i}/></NavLink>
           <div className="cart-image">
             <div className="cart-image__autor">
               <img src={data.user.profile_image.small} alt={"Аватарка " + data.user.name} className="foto-autor"/>
