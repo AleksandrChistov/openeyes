@@ -16,18 +16,22 @@ function FullScreen(props) {
   d = d.split('T')[0].split('-').reverse().join(".");
   console.log(d);
 
+  let toggleLike = "Поставить" || "Убрать";
+
+
   return (
-    <div className="foto-wrap">
-      <img src={result.urls.small} alt={"Фотография " + result.user.name} className="foto"/>
-      <div className="cart-image">
-        <div className="cart-image__autor">
-          <img src={result.user.profile_image.small} alt={"Аватарка " + result.user.name} className="foto-autor"/>
-          <a href={result.user.links.html} target="_blank" className="name-autor">{result.user.name}</a>
+    <div className="foto-wrap-fs">
+      <img src={result.urls.full} alt={"Фотография " + result.user.name} className="foto-fs"/>
+      <div className="cart-image-fs">
+        <div className="cart-image__autor-fs">
+          <img src={result.user.profile_image.medium} alt={"Аватарка " + result.user.name} className="foto-autor-fs"/>
+          <a href={result.user.links.html} target="_blank" className="name-autor-fs">{result.user.name}</a>
         </div>
-        <div className="cart-image__data">
-          <time className="date-foto" itemProp="datePublished" dateTime={result.created_at}>{d}</time>
-          <img src="img/likes.png" alt="Количество лайков" className="foto-likes"/>
-          <span className="number-likes">{result.likes}</span>
+        <time className="date-foto-fs" itemProp="datePublished" dateTime={result.created_at}>{d}</time>
+        <div className="cart-image__data-fs">
+          <button className="toggle-like-fs" aria-label="Поставить лайк или дизлайк">{toggleLike} LIKE</button>
+          <img src="img/likes.png" alt="Количество лайков" className="foto-likes-fs"/>
+          <span className="number-likes-fs">{result.likes}</span>
         </div>
       </div>
     </div>
