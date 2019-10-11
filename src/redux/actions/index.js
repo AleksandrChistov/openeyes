@@ -1,20 +1,20 @@
 import Unsplash from 'unsplash-js';
 
+const unsplash = new Unsplash({
+  applicationId: "8187b55cc1e13cb228d48e798baddb4093e5f1714d4d9d479aabc50c5661b040",
+  secret: "f0d76cdc96af00ee01c8d99630308b67dd36fbfa536b7d21730ad043ab7c705a",
+  callbackUrl: "https://opeyes.ru/auth"
+});
+
 export function asynLoad(number) {
-  return (dispatch) => { 
-    const unsplash = new Unsplash({
-      applicationId: "8187b55cc1e13cb228d48e798baddb4093e5f1714d4d9d479aabc50c5661b040",
-      secret: "f0d76cdc96af00ee01c8d99630308b67dd36fbfa536b7d21730ad043ab7c705a",
-      callbackUrl: "https://opeyes.ru/auth"
-    });
-  
+  return (dispatch) => {
     const code = location.search.split('code=')[1];
-  
     if (code) {
       unsplash.auth.userAuthentication(code)
         .then(res => res.json())
         .then(json => {
           unsplash.auth.setBearerToken(json.access_token);
+          localStorage.setItem('token', json.access_token);
         });
       unsplash.photos.listPhotos( number, 10, "latest")
         .then(res => res.json())
@@ -28,17 +28,12 @@ export function asynLoad(number) {
 }
 
 export function loadPlus(number, n) {
-  return (dispatch) => {    
-    const unsplash = new Unsplash({
-      applicationId: "8187b55cc1e13cb228d48e798baddb4093e5f1714d4d9d479aabc50c5661b040",
-      secret: "f0d76cdc96af00ee01c8d99630308b67dd36fbfa536b7d21730ad043ab7c705a",
-      callbackUrl: "https://opeyes.ru/auth"
-    });
+  return (dispatch) => {
     unsplash.photos.listPhotos( number, 10, "latest")
       .then(res => res.json())
       .then(json => { 
         dispatch(loadHomePlus(json, number, n));
-  });
+    });
   }
 }
 
@@ -86,22 +81,34 @@ export function passParameters(elem) {
   }
 }
 
-export function LikePhoto() {
+export function likePhoto(userId) {
   return (dispatch) => {
-  let scrollY = Math.ceil(document.body.scrollTop || document.documentElement.scrollTop);
-  let windowY = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    if (scrollY === windowY) {
-      dispatch(countChecked());
-    }
+  let token = localStorage.getItem('token');
+  unsplash.auth.setBearerToken(token);
+  console.log(userId);
+  
+  unsplash.photos.likePhoto(userId)
+    .then(res => res.json())
+    .then(json => {
+      dispatch(likeToggle(userId)); 
+    });
   }
 }
 
-export function unlikePhoto() {
-  return (dispatch) => {
-  let scrollY = Math.ceil(document.body.scrollTop || document.documentElement.scrollTop);
-  let windowY = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    if (scrollY === windowY) {
-      dispatch(countChecked());
-    }
+export function unlikePhoto(userId) {
+  let token = localStorage.getItem('token');
+  unsplash.auth.setBearerToken(token);
+
+  unsplash.photos.unlikePhoto(userId)
+    .then(res => res.json())
+    .then(json => { 
+      dispatch(likeToggle(userId));
+  });
+}
+
+function likeToggle(userId) {
+  return {
+    type: 'LIKE_TOGGLE',
+    userId
   }
 }

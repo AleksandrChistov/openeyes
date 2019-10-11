@@ -1,14 +1,19 @@
 const initialState = {
-  id: false
+  id: false,
+  userId: false
 }
 
 function fullScreenReducer(state = initialState, action) {
   switch (action.type) {
     case 'PASS_PARAM':
-      console.log(action.elem);
-      
       return {
-        data: action.elem
+        id: action.elem,
+        userId: state.userId
+      }
+    case 'LIKE_TOGGLE':
+      return {
+        id: state.id,
+        userId: action.userId
       }
     default:
       return state;

@@ -2,8 +2,9 @@ import React from 'react';
 import style from './full-screen.styl'
 
 function FullScreen(props) {
+  const { likePhoto, unlikePhoto } = props;
   let data = props.auth.auth;
-  let id = props.fScreen.data;
+  let id = props.fScreen.id;
   const lastPicture = JSON.parse(localStorage.getItem('lastPicture')) || false;
   let result;
 
@@ -37,7 +38,7 @@ function FullScreen(props) {
           </div>
           <time className="date-photo-fs" itemProp="datePublished" dateTime={result.created_at}>{d}</time>
           <div className="cart-image__data-fs">
-            <button className="toggle-like-fs">{toggleLike} LIKE</button>
+            <button className="toggle-like-fs" onClick={() => likePhoto(result.id)}>{toggleLike} LIKE</button>
             <img src="img/likes.png" alt="Количество лайков" className="photo-likes-fs"/>
             <span className="number-likes-fs">{result.likes}</span>
           </div>
