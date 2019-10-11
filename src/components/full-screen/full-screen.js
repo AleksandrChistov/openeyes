@@ -28,17 +28,17 @@ function FullScreen(props) {
   return (
     <React.Fragment>
       <button className="come-back-fs" onClick={() => window.history.back()}>&#8592; Вернуться назад</button>
-      <div className="foto-wrap-fs">
-        <img src={result.urls.full} alt={"Фотография " + result.user.name} className="foto-fs"/>
+      <div className="photo-wrap-fs">
+        <img src={result.urls.full} alt={"Фотография " + result.user.name} className="photo-fs"/>
         <div className="cart-image-fs">
           <div className="cart-image__autor-fs">
-            <img src={result.user.profile_image.medium} alt={"Аватарка " + result.user.name} className="foto-autor-fs"/>
+            <img src={result.user.profile_image.medium} alt={"Аватарка " + result.user.name} className="photo-autor-fs"/>
             <a href={result.user.links.html} target="_blank" className="name-autor-fs">{result.user.name}</a>
           </div>
-          <time className="date-foto-fs" itemProp="datePublished" dateTime={result.created_at}>{d}</time>
+          <time className="date-photo-fs" itemProp="datePublished" dateTime={result.created_at}>{d}</time>
           <div className="cart-image__data-fs">
             <button className="toggle-like-fs">{toggleLike} LIKE</button>
-            <img src="img/likes.png" alt="Количество лайков" className="foto-likes-fs"/>
+            <img src="img/likes.png" alt="Количество лайков" className="photo-likes-fs"/>
             <span className="number-likes-fs">{result.likes}</span>
           </div>
         </div>

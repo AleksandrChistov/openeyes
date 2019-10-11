@@ -80,10 +80,28 @@ function countChecked() {
 }
 
 export function passParameters(elem) {
-  console.log(elem);
-  
   return {
     type: 'PASS_PARAM',
     elem
+  }
+}
+
+export function LikePhoto() {
+  return (dispatch) => {
+  let scrollY = Math.ceil(document.body.scrollTop || document.documentElement.scrollTop);
+  let windowY = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    if (scrollY === windowY) {
+      dispatch(countChecked());
+    }
+  }
+}
+
+export function unlikePhoto() {
+  return (dispatch) => {
+  let scrollY = Math.ceil(document.body.scrollTop || document.documentElement.scrollTop);
+  let windowY = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    if (scrollY === windowY) {
+      dispatch(countChecked());
+    }
   }
 }

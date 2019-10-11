@@ -21,18 +21,18 @@ function Home(props) {
       let d = data.created_at;
       d = d.split('T')[0].split('-').reverse().join(".");
       return (
-        <div className="foto-wrap" key={i}>
-          <NavLink to="/full-foto"><img onClick={(e) => passParameters(e.target.dataset.i)} 
+        <div className="photo-wrap" key={i}>
+          <NavLink to="/full-photo"><img onClick={(e) => passParameters(e.target.dataset.i)} 
           src={data.urls.small} alt={"Фотография " + data.user.name} 
-          className="foto" data-i={i}/></NavLink>
+          className="photo" data-i={i}/></NavLink>
           <div className="cart-image">
             <div className="cart-image__autor">
-              <img src={data.user.profile_image.small} alt={"Аватарка " + data.user.name} className="foto-autor"/>
+              <img src={data.user.profile_image.small} alt={"Аватарка " + data.user.name} className="photo-autor"/>
               <a href={data.user.links.html} target="_blank" className="name-autor">{data.user.name}</a>
             </div>
             <div className="cart-image__data">
-              <time className="date-foto" itemProp="datePublished" dateTime={data.created_at}>{d}</time>
-              <img src="img/likes.png" alt="Количество лайков" className="foto-likes"/>
+              <time className="date-photo" itemProp="datePublished" dateTime={data.created_at}>{d}</time>
+              <img src="img/likes.png" alt="Количество лайков" className="photo-likes"/>
               <span className="number-likes">{data.likes}</span>
             </div>
           </div>
