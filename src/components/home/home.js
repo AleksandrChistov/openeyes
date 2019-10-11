@@ -22,7 +22,7 @@ function Home(props) {
       d = d.split('T')[0].split('-').reverse().join(".");
       return (
         <div className="foto-wrap" key={i}>
-          <NavLink to="/full-foto"><img onClick={(e) => passParameters(e.target.parentElement.parentElement)} 
+          <NavLink to="/full-foto"><img onClick={(e) => passParameters(e.target.dataset.i)} 
           src={data.urls.small} alt={"Фотография " + data.user.name} 
           className="foto" data-i={i}/></NavLink>
           <div className="cart-image">

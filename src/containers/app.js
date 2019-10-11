@@ -22,7 +22,7 @@ let App = (props) => {
         </div>
         <BtnLoader auth={auth} loadPlus={loadPlus}/>
       </Route>
-      <Route path='/full-foto'><FullScreen fScreen={fScreen}/></Route>
+      <Route path='/full-foto'><FullScreen fScreen={fScreen} auth={auth}/></Route>
     </React.Fragment>
   )
 }

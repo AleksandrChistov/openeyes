@@ -1,5 +1,5 @@
 const initialState = {
-  data: null
+  id: false
 }
 
 function fullScreenReducer(state = initialState, action) {
