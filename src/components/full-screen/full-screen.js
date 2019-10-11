@@ -2,14 +2,23 @@ import React from 'react';
 import style from './full-screen.styl'
 
 function FullScreen(props) {
-  const data = props.auth.auth;
-  const id = props.fScreen.data;
+  let data = props.auth.auth;
+  let id = props.fScreen.data;
+  const lastPicture = JSON.parse(localStorage.getItem('lastPicture')) || false;
+  let result;
 
   if (!id) {
-    return null;
+    if (!lastPicture) {
+      return null;
+    }
+    id = 0;
+    result = lastPicture;
   }
 
-  let result = data.find((item, i) => i == id);
+  if (result !== lastPicture) {
+    result = data.find((item, i) => i == id);
+    localStorage.setItem('lastPicture', JSON.stringify(result));
+  }
   console.log(result);
   
   let d = result.created_at;
@@ -17,7 +26,6 @@ function FullScreen(props) {
   console.log(d);
 
   let toggleLike = "Поставить" || "Убрать";
-
 
   return (
     <div className="foto-wrap-fs">
