@@ -3,11 +3,15 @@ import { Route, NavLink } from 'react-router-dom'
 import style from './home.styl'
 
 function Home(props) {
-  const { asynLoad, auth, loadPlus, scrollTopY, passParameters } = props;
+  const { asynLoad, asynLoadRe, auth, loadPlus, scrollTopY, passParameters } = props;
   const unsplash = auth.auth;
 
   if(unsplash.length <= 0) {
-    asynLoad(1);
+    if (localStorage.getItem('token')) {
+      asynLoadRe(1);
+    } else {
+      asynLoad(1);
+    }
   }
 
   if(auth.count) {
@@ -32,7 +36,7 @@ function Home(props) {
             </div>
             <div className="cart-image__data">
               <time className="date-photo" itemProp="datePublished" dateTime={data.created_at}>{d}</time>
-              <img src="img/likes.png" alt="Количество лайков" className="photo-likes"/>
+              <span className="photo-likes">&#10084;</span>
               <span className="number-likes">{data.likes}</span>
             </div>
           </div>

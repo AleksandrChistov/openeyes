@@ -13,17 +13,30 @@ export function asynLoad(number) {
       unsplash.auth.userAuthentication(code)
         .then(res => res.json())
         .then(json => {
+          console.log('Token: ' + json.access_token);
           unsplash.auth.setBearerToken(json.access_token);
           localStorage.setItem('token', json.access_token);
         });
-      unsplash.photos.listPhotos( number, 10, "latest")
+      unsplash.photos.listPhotos(number, 10, "latest")
         .then(res => res.json())
         .then(json => {
           dispatch(loadHome(json, number)); 
       });
     } else {
-      dispatch(loadError("Недействительный код аутентификации: " + code));
+      dispatch(loadError("Нет кода аутентификации: " + code));
     }
+  }
+}
+
+export function asynLoadRe(number) {
+  return (dispatch) => {
+    let token = localStorage.getItem('token');
+    unsplash.auth.setBearerToken(token);
+    unsplash.photos.listPhotos(number, 10, "latest")
+      .then(res => res.json())
+      .then(json => {
+        dispatch(loadHome(json, number)); 
+    });
   }
 }
 
@@ -41,7 +54,7 @@ function loadHome(result, number) {
   return {
     type: 'LOAD_HOME',
     result,
-    number,
+    number
   }
 }
 
@@ -74,41 +87,44 @@ function countChecked() {
   }
 }
 
-export function passParameters(elem) {
+export function passParameters(id) {
   return {
     type: 'PASS_PARAM',
-    elem
+    id
   }
 }
 
-export function likePhoto(userId) {
+export function likePhoto(result) {
   return (dispatch) => {
-  let token = localStorage.getItem('token');
-  unsplash.auth.setBearerToken(token);
-  console.log(userId);
-  
-  unsplash.photos.likePhoto(userId)
-    .then(res => res.json())
-    .then(json => {
-      dispatch(likeToggle(userId)); 
+    let token = localStorage.getItem('token');
+    unsplash.auth.setBearerToken(token);
+    console.log(result.id);
+    
+    unsplash.photos.likePhoto(result.id)
+      .then(res => res.json())
+      .then(json => {
+        dispatch(likeToggle(result)); 
+      });
+  }
+}
+
+export function unlikePhoto(result) {
+  return (dispatch) => {
+    let token = localStorage.getItem('token');
+    unsplash.auth.setBearerToken(token);
+    console.log(result.id);
+    
+    unsplash.photos.unlikePhoto(result.id)
+      .then(res => res.json())
+      .then(json => { 
+        dispatch(likeToggle(result));
     });
   }
 }
 
-export function unlikePhoto(userId) {
-  let token = localStorage.getItem('token');
-  unsplash.auth.setBearerToken(token);
-
-  unsplash.photos.unlikePhoto(userId)
-    .then(res => res.json())
-    .then(json => { 
-      dispatch(likeToggle(userId));
-  });
-}
-
-function likeToggle(userId) {
+function likeToggle(result) {
   return {
     type: 'LIKE_TOGGLE',
-    userId
+    result
   }
 }

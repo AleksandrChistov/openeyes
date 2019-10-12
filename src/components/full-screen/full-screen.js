@@ -5,16 +5,22 @@ function FullScreen(props) {
   const { likePhoto, unlikePhoto } = props;
   let data = props.auth.auth;
   let id = props.fScreen.id;
-  const lastPicture = JSON.parse(localStorage.getItem('lastPicture')) || false;
-  let result;
+  const lastPicture = JSON.parse(localStorage.getItem('lastPicture')) || null;
+  let result = 0;
+console.log(lastPicture);
 
   if (!id) {
     if (!lastPicture) {
       return null;
     }
+    if (data.length === 0) {
+      result = lastPicture;
+    }
     id = 0;
-    result = lastPicture;
   }
+
+  console.log(data);
+  
 
   if (result !== lastPicture) {
     result = data.find((item, i) => i == id);
@@ -24,7 +30,13 @@ function FullScreen(props) {
   let d = result.created_at;
   d = d.split('T')[0].split('-').reverse().join(".");
 
-  let toggleLike = "Поставить" || "Убрать";
+  let toggleLike = "Поставить";
+  let funToggleLike = likePhoto;
+
+  if (result.liked_by_user) {
+    toggleLike = "Убрать";
+    funToggleLike = unlikePhoto;
+  }
 
   return (
     <React.Fragment>
@@ -38,8 +50,8 @@ function FullScreen(props) {
           </div>
           <time className="date-photo-fs" itemProp="datePublished" dateTime={result.created_at}>{d}</time>
           <div className="cart-image__data-fs">
-            <button className="toggle-like-fs" onClick={() => likePhoto(result.id)}>{toggleLike} LIKE</button>
-            <img src="img/likes.png" alt="Количество лайков" className="photo-likes-fs"/>
+            <button className="toggle-like-fs" onClick={() => funToggleLike(result)}>{toggleLike} LIKE</button>
+            <span className="photo-likes-fs">&#10084;</span>
             <span className="number-likes-fs">{result.likes}</span>
           </div>
         </div>
