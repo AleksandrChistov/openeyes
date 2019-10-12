@@ -7,7 +7,6 @@ import reduxThunk from 'redux-thunk';
 
 import style from "./index.styl";
 import imgLogo from './img/logo.png';
-import imgLikes from './img/likes.png';
 import App from './containers/app';
 import rootReducer from "./redux/reducers/index";
 

@@ -24,6 +24,10 @@ function Home(props) {
     unsplash.map((data, i) => {
       let d = data.created_at;
       d = d.split('T')[0].split('-').reverse().join(".");
+      let styleLikes = "photo-likes";
+      if (data.liked_by_user) {
+        styleLikes = "photo-likes-active";
+      }
       return (
         <div className="photo-wrap" key={i}>
           <NavLink to="/full-photo"><img onClick={(e) => passParameters(e.target.dataset.i)} 
@@ -36,7 +40,7 @@ function Home(props) {
             </div>
             <div className="cart-image__data">
               <time className="date-photo" itemProp="datePublished" dateTime={data.created_at}>{d}</time>
-              <span className="photo-likes">&#10084;</span>
+              <span className={styleLikes}>&#10084;</span>
               <span className="number-likes">{data.likes}</span>
             </div>
           </div>

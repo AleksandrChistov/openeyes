@@ -32,10 +32,12 @@ console.log(lastPicture);
 
   let toggleLike = "Поставить";
   let funToggleLike = likePhoto;
+  let styleLikes = "photo-likes-fs";
 
   if (result.liked_by_user) {
     toggleLike = "Убрать";
     funToggleLike = unlikePhoto;
+    styleLikes = "photo-likes-fs-active";
   }
 
   return (
@@ -51,7 +53,7 @@ console.log(lastPicture);
           <time className="date-photo-fs" itemProp="datePublished" dateTime={result.created_at}>{d}</time>
           <div className="cart-image__data-fs">
             <button className="toggle-like-fs" onClick={() => funToggleLike(result)}>{toggleLike} LIKE</button>
-            <span className="photo-likes-fs">&#10084;</span>
+            <span className={styleLikes}>&#10084;</span>
             <span className="number-likes-fs">{result.likes}</span>
           </div>
         </div>
