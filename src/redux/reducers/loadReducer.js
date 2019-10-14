@@ -37,6 +37,12 @@ function loadReducer(state = initialState, action) {
         number: state.number,
         count: !state.count
       }
+    case "PASS_PHOTO":
+      return {
+        auth: action.arr,
+        number: state.number,
+        count: state.count
+      }
     case 'LIKE_TOGGLE':
       let allState = {...state};
       console.log(allState.auth.length);

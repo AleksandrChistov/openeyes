@@ -13,15 +13,15 @@ export function asynLoad(number) {
       unsplash.auth.userAuthentication(code)
         .then(res => res.json())
         .then(json => {
-          console.log('Token: ' + json.access_token);
           unsplash.auth.setBearerToken(json.access_token);
           localStorage.setItem('token', json.access_token);
+          unsplash.photos.listPhotos(number, 10, "latest")
+          .then(res => res.json())
+          .then(json => {
+            dispatch(loadHome(json, number)); 
+          })
+          .catch((e) => console.log(e));
         });
-      unsplash.photos.listPhotos(number, 10, "latest")
-        .then(res => res.json())
-        .then(json => {
-          dispatch(loadHome(json, number)); 
-      });
     } else {
       dispatch(loadError("Нет кода аутентификации: " + code));
     }
@@ -98,8 +98,6 @@ export function likePhoto(result) {
   return (dispatch) => {
     let token = localStorage.getItem('token');
     unsplash.auth.setBearerToken(token);
-    console.log(result.id);
-    
     unsplash.photos.likePhoto(result.id)
       .then(res => res.json())
       .then(json => {
@@ -112,8 +110,6 @@ export function unlikePhoto(result) {
   return (dispatch) => {
     let token = localStorage.getItem('token');
     unsplash.auth.setBearerToken(token);
-    console.log(result.id);
-    
     unsplash.photos.unlikePhoto(result.id)
       .then(res => res.json())
       .then(json => { 
@@ -126,5 +122,12 @@ function likeToggle(result) {
   return {
     type: 'LIKE_TOGGLE',
     result
+  }
+}
+
+export function passPhoto(arr) {
+  return {
+    type: 'PASS_PHOTO',
+    arr
   }
 }

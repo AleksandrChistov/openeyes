@@ -7,6 +7,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
   entry: './src/index.js',
   output: {
+    publicPath: '/',
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
@@ -44,7 +45,7 @@ module.exports = {
         loader: 'file-loader',
         options: {
             outputPath: 'img',
-            publicPath: './src/image/',
+            publicPath: '/',
             name:'[name].[ext]', 
         }
       }

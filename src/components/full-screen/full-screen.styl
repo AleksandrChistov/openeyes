@@ -77,13 +77,39 @@
     outline none
 
 .come-back-fs
-  border 0
-  background-color transparent
   font-family cursive, "sans-serif"
   font-size 16px
   margin-bottom 5px
+  text-decoration none
+  color #000000
+  display inline-block
   &:hover
     color #51b5e5
     cursor pointer
-  &:active, &:focus
-    outline none
+
+.arrow-left, .arrow-right
+  text-decoration none
+  font-size 45px
+  color #fff
+  position absolute
+  top 45%
+  background-color #45465095
+  line-height 0
+  padding 20px 5px 25px
+  &:hover
+    color #51b5e5
+    background-color #454650
+    cursor pointer
+
+.arrow-left
+  left 0
+
+.arrow-right
+  right 0
+
+.wrap-links-full-foto
+  display flex
+  justify-content space-between
+
+.number-full-foto
+  font-size 16px

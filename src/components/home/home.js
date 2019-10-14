@@ -1,10 +1,10 @@
 import React from 'react';
-import { Route, NavLink } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import style from './home.styl'
 
 function Home(props) {
   const { asynLoad, asynLoadRe, auth, loadPlus, scrollTopY, passParameters } = props;
-  const unsplash = auth.auth;
+  const unsplash = auth.auth || JSON.parse(localStorage.getItem('lastPicture'));
 
   if(unsplash.length <= 0) {
     if (localStorage.getItem('token')) {
@@ -30,9 +30,9 @@ function Home(props) {
       }
       return (
         <div className="photo-wrap" key={i}>
-          <NavLink to="/full-photo"><img onClick={(e) => passParameters(e.target.dataset.i)} 
-          src={data.urls.small} alt={"Фотография " + data.user.name} 
-          className="photo" data-i={i}/></NavLink>
+          <a className="show-full-foto" onClick={() => props.history.push('/full-photo/' + (i + 1))}>
+            <img onClick={() => passParameters(i)} src={data.urls.small} alt={"Фотография " + data.user.name} 
+            className="photo" data-i={i}/></a>
           <div className="cart-image">
             <div className="cart-image__autor">
               <img src={data.user.profile_image.small} alt={"Аватарка " + data.user.name} className="photo-autor"/>
@@ -50,4 +50,4 @@ function Home(props) {
   )
 }
 
-export default Home;
+export default withRouter(Home);

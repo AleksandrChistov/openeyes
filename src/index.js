@@ -21,7 +21,7 @@ const loggerMiddleware = store => next => action => {
  ReactDOM.render(
    <Provider store={store}>
     <Router>
-      <Route path="/" component={App} />
+      <Route component={App}/>
     </Router>
   </Provider>, 
 document.querySelector('#app'));
