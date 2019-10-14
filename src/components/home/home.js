@@ -1,17 +1,24 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import style from './home.styl'
 
 function Home(props) {
   const { asynLoad, asynLoadRe, auth, loadPlus, scrollTopY, passParameters } = props;
   const unsplash = auth.auth || JSON.parse(localStorage.getItem('lastPicture'));
+  const load = parseInt(localStorage.getItem('loading'));
 
-  if(unsplash.length <= 0) {
-    if (localStorage.getItem('token')) {
-      asynLoadRe(1);
-    } else {
-      asynLoad(1);
-    }
+  if(unsplash.length <= 0 && load === 1) {
+    localStorage.removeItem('loading');
+    asynLoad(1);
+  }
+
+  if(unsplash.length <= 0 && localStorage.getItem('token') && !load) {
+    asynLoadRe(1);
+  }
+
+  if(unsplash.length <= 0 && !localStorage.getItem('token') && !load) {
+    // редирект на страницу авторизации
+    return <Redirect to="/" />;
   }
 
   if(auth.count) {
@@ -24,19 +31,26 @@ function Home(props) {
     unsplash.map((data, i) => {
       let d = data.created_at;
       d = d.split('T')[0].split('-').reverse().join(".");
+
+      let firstName = data.user.first_name;
+      let lastName = data.user.last_name;
+      if (firstName.length > 10) {firstName = firstName.substr(0, 8) + "...";};
+      if (lastName.length > 10) {lastName = lastName.substr(0, 8) + "...";};
+      let name = `${firstName} ${lastName}`;
+
       let styleLikes = "photo-likes";
       if (data.liked_by_user) {
         styleLikes = "photo-likes-active";
       }
       return (
         <div className="photo-wrap" key={i}>
-          <a className="show-full-foto" onClick={() => props.history.push('/full-photo/' + (i + 1))}>
+          <a className="show-full-foto" onClick={() => {props.history.push('/full-photo/' + (i + 1)); window.scrollTo(0,0)}}>
             <img onClick={() => passParameters(i)} src={data.urls.small} alt={"Фотография " + data.user.name} 
             className="photo" data-i={i}/></a>
           <div className="cart-image">
             <div className="cart-image__autor">
               <img src={data.user.profile_image.small} alt={"Аватарка " + data.user.name} className="photo-autor"/>
-              <a href={data.user.links.html} target="_blank" className="name-autor">{data.user.name}</a>
+              <a href={data.user.links.html} target="_blank" className="name-autor">{name}</a>
             </div>
             <div className="cart-image__data">
               <time className="date-photo" itemProp="datePublished" dateTime={data.created_at}>{d}</time>

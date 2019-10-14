@@ -14,13 +14,20 @@ export function asynLoad(number) {
         .then(res => res.json())
         .then(json => {
           unsplash.auth.setBearerToken(json.access_token);
+          // Сохраняем токен в LocalStorage
           localStorage.setItem('token', json.access_token);
           unsplash.photos.listPhotos(number, 10, "latest")
           .then(res => res.json())
           .then(json => {
             dispatch(loadHome(json, number)); 
           })
-          .catch((e) => console.log(e));
+          .catch(err => {
+            // Если ошибка, то выводим её на страницу 
+            dispatch(errorMessage(err));
+          });
+        })
+        .catch(err => {
+          dispatch(errorMessage(err));
         });
     } else {
       dispatch(loadError("Нет кода аутентификации: " + code));
@@ -30,13 +37,17 @@ export function asynLoad(number) {
 
 export function asynLoadRe(number) {
   return (dispatch) => {
+    // Берем токен из localStorage
     let token = localStorage.getItem('token');
     unsplash.auth.setBearerToken(token);
     unsplash.photos.listPhotos(number, 10, "latest")
       .then(res => res.json())
       .then(json => {
         dispatch(loadHome(json, number)); 
-    });
+      })
+      .catch(err => {
+        dispatch(errorMessage(err));
+      });
   }
 }
 
@@ -46,7 +57,10 @@ export function loadPlus(number, n) {
       .then(res => res.json())
       .then(json => { 
         dispatch(loadHomePlus(json, number, n));
-    });
+      })
+      .catch(err => {
+        dispatch(errorMessage(err));
+      });
   }
 }
 
@@ -94,27 +108,35 @@ export function passParameters(id) {
   }
 }
 
-export function likePhoto(result) {
+export function likePhoto(result, props) {
   return (dispatch) => {
     let token = localStorage.getItem('token');
+    if (!token) { return props.history.push('/')} // редирект на страницу авторизации
     unsplash.auth.setBearerToken(token);
     unsplash.photos.likePhoto(result.id)
       .then(res => res.json())
       .then(json => {
         dispatch(likeToggle(result)); 
+      })
+      .catch(err => {
+        dispatch(errorMessage(err));
       });
   }
 }
 
-export function unlikePhoto(result) {
+export function unlikePhoto(result, props) {
   return (dispatch) => {
     let token = localStorage.getItem('token');
+    if (!token) {return props.history.push('/')} // редирект на страницу авторизации
     unsplash.auth.setBearerToken(token);
     unsplash.photos.unlikePhoto(result.id)
       .then(res => res.json())
       .then(json => { 
         dispatch(likeToggle(result));
-    });
+      })
+      .catch(err => {
+        dispatch(errorMessage(err));
+      });
   }
 }
 
@@ -130,4 +152,13 @@ export function passPhoto(arr) {
     type: 'PASS_PHOTO',
     arr
   }
+}
+
+function errorMessage(err) {
+  let ErrMessage = document.createElement('div');
+  ErrMessage.classList.add("erorr");
+  ErrMessage.textContent = `Ошибка соединения с сервером.`;
+  app.append(ErrMessage);
+  setTimeout(() => ErrMessage.remove(), 3000);
+  console.log(`Ошибка соединения с сервером: ${err.message}`);
 }

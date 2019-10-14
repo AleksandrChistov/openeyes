@@ -18,7 +18,11 @@ function Authorization(props) {
 
   return (
     <div className="auth-block">
-      <button className="btn-auth" onClick={() => location.assign(openeyes)}>Authorization in Unsplash</button>
+      <p className="title-auth">Авторизуйтесь, чтобы начать пользоваться приложением.</p>
+      <button className="btn-auth" onClick={() => {
+        localStorage.setItem('loading', "1");
+        location.assign(openeyes);
+        }}>Authorization in Unsplash</button>
     </div>
   )
 }

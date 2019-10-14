@@ -1,15 +1,17 @@
 .auth-block
   display flex
-  justify-content center
-  margin-top 20px
+  flex-direction column
+  align-items center
+  margin 0 auto
 
 .btn-auth
-  width 320px
+  max-width 320px
   height 50px
   font-family Verdana, 'san-serif'
   font-size 20px
   font-weight 500
   border-radius 10px
+  padding 0 20px
   border 0
   background transparent
   box-shadow 1px 1px 3px 1px #777777
@@ -21,3 +23,12 @@
     color #fff
   &:active, &:focus
     outline none
+
+.title-auth
+  text-align center
+  font-size 16px
+  color #000000
+
+@media (max-width 350px)
+  .btn-auth
+    font-size 18px

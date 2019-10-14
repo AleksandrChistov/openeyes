@@ -18,7 +18,7 @@ let App = (props) => {
       <Header/>
       <Route path="/" exact component={Authorization} />
       <Route path="/auth">
-        <div className="home-block">
+        <div className="home-block" id="homeblock">
           <Home auth={auth} asynLoad={asynLoad} asynLoadRe={asynLoadRe} loadPlus={loadPlus} 
           passParameters={passParameters} scrollTopY={scrollTopY}/>
         </div>
@@ -44,8 +44,8 @@ function mapDispatchToProps(dispatch) {
     loadPlus: (number, n) => dispatch(loadPlus(number, n)),
     scrollTopY: () => dispatch(scrollTopY()),
     passParameters: (id) => dispatch(passParameters(id)),
-    likePhoto: (userId) => dispatch(likePhoto(userId)),
-    unlikePhoto: (userId) => dispatch(unlikePhoto(userId)),
+    likePhoto: (userId, props) => dispatch(likePhoto(userId, props)),
+    unlikePhoto: (userId, props) => dispatch(unlikePhoto(userId, props)),
     passPhoto: (arr) => dispatch(passPhoto(arr))
   }
 }
