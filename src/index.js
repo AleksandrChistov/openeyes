@@ -10,13 +10,7 @@ import imgLogo from './img/logo.png';
 import App from './containers/app';
 import rootReducer from "./redux/reducers/index";
 
-const loggerMiddleware = store => next => action => {
-  const result = next(action)
-  console.log('Middleware', store.getState());
-  return result
-}
-
- const store = createStore(rootReducer, applyMiddleware(loggerMiddleware, reduxThunk));
+ const store = createStore(rootReducer, applyMiddleware(reduxThunk));
 
  ReactDOM.render(
    <Provider store={store}>

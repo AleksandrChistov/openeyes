@@ -58,7 +58,6 @@ function loadReducer(state = initialState, action) {
           data = action.result;
         }
       });
-      console.log(allState.auth);
       return {
         auth: allState.auth,
         number: state.number,
