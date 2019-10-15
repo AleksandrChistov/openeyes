@@ -9,7 +9,7 @@ function Home(props) {
 
   if(unsplash.length <= 0 && load === 1) {
     localStorage.removeItem('loading');
-    asynLoad(1);
+    asynLoad(1); 
   }
 
   if(unsplash.length <= 0 && localStorage.getItem('token') && !load) {
@@ -31,9 +31,8 @@ function Home(props) {
     unsplash.map((data, i) => {
       let d = data.created_at;
       d = d.split('T')[0].split('-').reverse().join(".");
-
-      let firstName = data.user.first_name;
-      let lastName = data.user.last_name;
+      let firstName = data.user.first_name || "";
+      let lastName = data.user.last_name || "";
       if (firstName.length > 10) {firstName = firstName.substr(0, 8) + "...";};
       if (lastName.length > 10) {lastName = lastName.substr(0, 8) + "...";};
       let name = `${firstName} ${lastName}`;
