@@ -31,6 +31,7 @@ function Home(props) {
     unsplash.map((data, i) => {
       let d = data.created_at;
       d = d.split('T')[0].split('-').reverse().join(".");
+      
       let firstName = data.user.first_name || "";
       let lastName = data.user.last_name || "";
       if (firstName.length > 10) {firstName = firstName.substr(0, 8) + "...";};
