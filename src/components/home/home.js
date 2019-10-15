@@ -31,7 +31,12 @@ function Home(props) {
     unsplash.map((data, i) => {
       let d = data.created_at;
       d = d.split('T')[0].split('-').reverse().join(".");
-      
+
+      let styleFotoWrap = "photo-wrap";
+      if (unsplash.length % 3 === 2 && data === unsplash[unsplash.length - 1]) {
+        styleFotoWrap = "photo-wrap-lastchild";
+      }
+
       let firstName = data.user.first_name || "";
       let lastName = data.user.last_name || "";
       if (firstName.length > 10) {firstName = firstName.substr(0, 8) + "...";};
@@ -43,7 +48,7 @@ function Home(props) {
         styleLikes = "photo-likes-active";
       }
       return (
-        <div className="photo-wrap" key={i}>
+        <div className={styleFotoWrap} key={i}>
           <a className="show-full-foto" onClick={() => {props.history.push('/full-photo/' + (i + 1)); window.scrollTo(0,0)}}>
             <img onClick={() => passParameters(i)} src={data.urls.small} alt={"Фотография " + data.user.name} 
             className="photo" data-i={i}/></a>
